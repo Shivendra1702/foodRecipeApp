@@ -19,15 +19,17 @@ import {
 } from "react-native-heroicons/outline";
 import Category from "../components/Category";
 import axios from "axios";
+import Recipes from "../components/Recipes";
 
 const HomeScreen = () => {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
   const getCategories = async () => {
     try {
       const response = await axios.get(
-        "https://www.themealdb.com/api/json/v1/1/categories.php"
+        "https://themealdb.com/api/json/v1/1/categories.php"
       );
       if (response && response.data && response.data.categories) {
         setCategories(response.data.categories);
@@ -37,13 +39,27 @@ const HomeScreen = () => {
     }
   };
 
+  const getRecipes = async (category = "Beef") => {
+    try {
+      const response = await axios.get(
+        `https://themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+      if (response && response.data && response.data.meals) {
+        setRecipes(response.data.meals);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getCategories();
+    getRecipes();
   }, []);
 
   return (
     <View className="flex-1 bg-white">
-      <StatusBar style="dark" />
+      <StatusBar style="dark" backgroundColor="white" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 50 }}
@@ -98,8 +114,14 @@ const HomeScreen = () => {
               categoryData={categories}
               activeCategory={activeCategory}
               setActiveCategory={setActiveCategory}
+              getRecipes={getRecipes}
             />
           )}
+        </View>
+
+        {/* recipes */}
+        <View>
+          <Recipes categories={categories} recipes={recipes} />
         </View>
       </ScrollView>
     </View>

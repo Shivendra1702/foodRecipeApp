@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { Text, Image, View, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 // import { categoryData } from "../constants/index";
 import {
@@ -14,7 +7,12 @@ import {
 } from "react-native-responsive-screen";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 
-const Category = ({ categoryData, activeCategory, setActiveCategory }) => {
+const Category = ({
+  categoryData,
+  activeCategory,
+  setActiveCategory,
+  getRecipes,
+}) => {
   return (
     <Animated.View entering={FadeInDown.duration(500).springify()}>
       <ScrollView
@@ -32,6 +30,7 @@ const Category = ({ categoryData, activeCategory, setActiveCategory }) => {
               className="flex items-center space-y-1"
               onPress={() => {
                 setActiveCategory(category?.strCategory);
+                getRecipes(category?.strCategory);
               }}
             >
               <View
