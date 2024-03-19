@@ -20,6 +20,7 @@ import {
 import Category from "../components/Category";
 import axios from "axios";
 import Recipes from "../components/Recipes";
+import Loading from "../components/Loading";
 
 const HomeScreen = () => {
   const [activeCategory, setActiveCategory] = useState("Beef");
@@ -121,7 +122,11 @@ const HomeScreen = () => {
 
         {/* recipes */}
         <View>
-          <Recipes categories={categories} recipes={recipes} />
+          {categories.length == 0 || recipes.length == 0 ? (
+            <Loading size={"large"} className="mb-10" />
+          ) : (
+            <Recipes recipes={recipes} />
+          )}
         </View>
       </ScrollView>
     </View>

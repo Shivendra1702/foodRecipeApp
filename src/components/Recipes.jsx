@@ -11,34 +11,28 @@ import Loading from "./Loading";
 import { CachedImage } from "../helpers/image";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Recipes({ categories, recipes }) {
+export default function Recipes({ recipes }) {
   const navigation = useNavigation();
   return (
     <View className="mx-4 space-y-3">
-      {categories.length == 0 || recipes.length == 0 ? (
-        <Loading size={"large"} className="mb-10" />
-      ) : (
-        <>
-          <Text
-            style={{ fontSize: hp(3) }}
-            className="text-neutral-600 font-semibold"
-          >
-            Recipes
-          </Text>
-          <View>
-            <MasonryList
-              data={recipes}
-              keyExtractor={(item) => item.idMeal}
-              numColumns={2}
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item, i }) => (
-                <CardItem item={item} index={i} navigation={navigation} />
-              )}
-              onEndReachedThreshold={0.1}
-            />
-          </View>
-        </>
-      )}
+      <Text
+        style={{ fontSize: hp(3) }}
+        className="text-neutral-600 font-semibold"
+      >
+        Recipes
+      </Text>
+      <View>
+        <MasonryList
+          data={recipes}
+          keyExtractor={(item) => item.idMeal}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, i }) => (
+            <CardItem item={item} index={i} navigation={navigation} />
+          )}
+          onEndReachedThreshold={0.1}
+        />
+      </View>
     </View>
   );
 }
